@@ -1,123 +1,102 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-require(console.table);
+const cTable = require('console.table');
 
-const answers = require('./answers')
-
-// we need a Databse
+// const answers = require('');
 
 
-// we need a schema (creates tables)
 
-
-// we need to connect to our Database
-const db = mysql.createConnection({
+const db = mysql.createConnection({ // connects to our Database
     host: 'localhost',
-    user: '',
-    password: '',
+    user: 'root',
+    password: 'rootroot',
     database: 'employee_db'
 });
 
 
 function startQuestion() {
-    
+     
     inquirer.prompt([
         {
             type: `list`,
             message: `What would you like to do?`,
             name: `initialQ`,
-            choices: ["View all Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Roles", "View All Departments", 'Add Departments', "Quit"]
+            choices: ["View all Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Roles", "View All Departments", "Add Departments", "Quit"]
         },
         {
             type: 'input',
-            message: "What is your name?",
-            name: "firstName"
+            message: "What is your employees' first name?",
+            name: "first_name"
         }
-    ]).then((response) =>{
-        console.log(response);  // { title: "Update", firstName:'Sarah'  }
-
-        // we are making a decision
-        if(response.title == "View all emplyee") {
-            // redirect to another function
+    ]).then(response => {
+        
+      
+        
+        if(response.initialQ == "View all Employees") {
+            
             viewEmployees();
         }
-        if(response.title == "Update") {
-            // redirect to another function
-            updateEmployee();
+        if(response.initialQ == "View All Roles") {
+            
+            viewRoles();
+        }
+        if(response.initialQ == "View All Departments") {
+            
+            viewDepartments();
         }
 
+        if(error) {
+            console.log("Something went wrong");
+        }
         
-        //answers(response);
-        /* response.confirm === response.input
-        ? console.log('Success!')
-        : console.log('')
-        */
+        
     });
 }
 
 function viewEmployees() {
     
-    let sqlQuery = "SELECT * FROM employee";
-    // we want to query the database (this is an asynchrosous method)
-    db.query(sqlQuery, function(error, data) {
-        // check for an erro from the daabase
+    db.query("SELECT * FROM employees", function(error, data) {
+       
         if(error) {
             console.log("Something went wrong");
         }
-        console.log(data);
-        console.log("************")
-        console.table(data);
 
-
-        
-       startQuestion()
+        startQuestion()
     })
     
-    //start()
+    
 }
 
 function viewDepartments() {
     
-    let sqlQuery = "SELECT * FROM department";
-    // we want to query the database (this is an asynchrosous method)
-    db.query(sqlQuery, function(error, data) {
-        // check for an erro from the daabase
+    db.query("SELECT * FROM department", function(error, data) {
+        
         if(error) {
             console.log("Something went wrong");
         }
-        console.log(data);
-        console.log("************")
-        console.table(data);
-
-
-       
-       startQuestion()
+        
+        startQuestion()
     })
     
-    //start()
+
 }
 
 function viewRoles() {
     
-    let sqlQuery = "SELECT * FROM roles";
+    db.query("SELECT * FROM roles", function(error, data) {
     
-    db.query(sqlQuery, function(error, data) {
-        // check for an erro from the daabase
         if(error) {
             console.log("Something went wrong");
         }
-        console.log(data);
-        console.log("************")
-        console.table(data);
 
-
-        // now wherer do we go?
-       start()
+        startQuestion()
     })
     
-    //start()
 }
 
 
-// invoke the function
-start();
+
+startQuestion();
+
+
+
