@@ -19,14 +19,14 @@ const db = mysql.createConnection({
 });
 
 
-function start() {
+function startQuestion() {
     
     inquirer.prompt([
         {
             type: `list`,
             message: `What would you like to do?`,
-            name: `title`,
-            choices: ["View all emplyee", "Update", "delete emplyess"]
+            name: `initialQ`,
+            choices: ["View all Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Roles", "View All Departments", 'Add Departments', "Quit"]
         },
         {
             type: 'input',
@@ -59,6 +59,48 @@ function viewEmployees() {
     
     let sqlQuery = "SELECT * FROM employee";
     // we want to query the database (this is an asynchrosous method)
+    db.query(sqlQuery, function(error, data) {
+        // check for an erro from the daabase
+        if(error) {
+            console.log("Something went wrong");
+        }
+        console.log(data);
+        console.log("************")
+        console.table(data);
+
+
+        
+       startQuestion()
+    })
+    
+    //start()
+}
+
+function viewDepartments() {
+    
+    let sqlQuery = "SELECT * FROM department";
+    // we want to query the database (this is an asynchrosous method)
+    db.query(sqlQuery, function(error, data) {
+        // check for an erro from the daabase
+        if(error) {
+            console.log("Something went wrong");
+        }
+        console.log(data);
+        console.log("************")
+        console.table(data);
+
+
+       
+       startQuestion()
+    })
+    
+    //start()
+}
+
+function viewRoles() {
+    
+    let sqlQuery = "SELECT * FROM roles";
+    
     db.query(sqlQuery, function(error, data) {
         // check for an erro from the daabase
         if(error) {
