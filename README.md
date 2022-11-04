@@ -17,7 +17,7 @@ I installed this app using node.js, npm inquirer, npm consloe.table and mysql2.
 ## Usage
 
 
-[Video Link]()
+[Video Link](https://app.castify.com/view/44baf47b-f063-4469-88d5-8dfd0880379d)
 
 
 
